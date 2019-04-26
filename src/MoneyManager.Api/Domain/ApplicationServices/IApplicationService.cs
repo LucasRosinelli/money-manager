@@ -9,5 +9,6 @@ namespace MoneyManager.Api.Domain.ApplicationServices
     {
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity> GetAsync(Guid identifier);
+        Task<TEntity> CreateAsync(TEntity entity);
     }
 }

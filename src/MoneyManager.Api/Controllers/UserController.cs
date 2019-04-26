@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MoneyManager.Api.Domain.ApplicationServices;
+using MoneyManager.Api.Domain.Entities;
 using MoneyManager.Api.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace MoneyManager.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetAll()
         {
             var users = await this._applicationService.GetAllAsync();
 
@@ -34,7 +35,7 @@ namespace MoneyManager.Api.Controllers
         }
 
         [HttpGet("{identifier}")]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetUser(Guid identifier)
+        public async Task<ActionResult<IEnumerable<UserModel>>> Get(Guid identifier)
         {
             var user = await this._applicationService.GetAsync(identifier);
 
@@ -46,6 +47,18 @@ namespace MoneyManager.Api.Controllers
             var model = UserModel.FromUser(user);
 
             return this.Ok(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<UserModel>> Create(UserModel user)
+        {
+            var newUser = user.ToUser();
+
+            newUser = await this._applicationService.CreateAsync(newUser);
+
+            var model = UserModel.FromUser(newUser);
+
+            return this.CreatedAtAction(nameof(this.Get), new { id = newUser.Identifier }, model);
         }
     }
 }

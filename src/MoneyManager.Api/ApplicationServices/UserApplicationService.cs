@@ -29,5 +29,13 @@ namespace MoneyManager.Api.ApplicationServices
 
             return user;
         }
+
+        public async Task<User> CreateAsync(User entity)
+        {
+            this.Context.Users.Add(entity);
+            await this.Context.SaveChangesAsync();
+
+            return entity;
+        }
     }
 }

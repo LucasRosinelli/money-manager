@@ -7,6 +7,7 @@ namespace MoneyManager.Api.Models
     {
         public Guid Identifier { get; set; }
         public string Login { get; set; }
+        public string Password { get; set; }
         public string FullName { get; set; }
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset? LastUpdatedOn { get; set; }
@@ -22,6 +23,20 @@ namespace MoneyManager.Api.Models
                 CreatedOn = entity.CreatedOn,
                 LastUpdatedOn = entity.LastUpdatedOn,
                 IsActive = entity.IsActive
+            };
+        }
+
+        public User ToUser()
+        {
+            return new User()
+            {
+                Identifier = this.Identifier,
+                Login = this.Login,
+                Password = this.Password,
+                FullName = this.FullName,
+                CreatedOn = this.CreatedOn,
+                LastUpdatedOn = this.LastUpdatedOn,
+                IsActive = this.IsActive
             };
         }
     }
