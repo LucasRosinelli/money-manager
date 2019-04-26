@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MoneyManager.Api.ApplicationServices;
+using MoneyManager.Api.Domain.ApplicationServices;
 using MoneyManager.Api.Infrastructure.Persistence.DataContexts;
 
 namespace MoneyManager.Api
@@ -23,6 +25,7 @@ namespace MoneyManager.Api
             {
                 options.UseInMemoryDatabase("money-manager");
             });
+            services.AddScoped<IUserApplicationService, UserApplicationService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
