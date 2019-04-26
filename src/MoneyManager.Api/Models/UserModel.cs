@@ -13,6 +13,13 @@ namespace MoneyManager.Api.Models
         public DateTimeOffset? LastUpdatedOn { get; set; }
         public bool IsActive { get; set; }
 
+        public UserModel()
+        {
+            this.Identifier = Guid.NewGuid();
+            this.CreatedOn = DateTimeOffset.Now;
+            this.IsActive = true;
+        }
+
         public static UserModel FromUser(User entity)
         {
             return new UserModel()

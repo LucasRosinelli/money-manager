@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MoneyManager.Api.Domain.ApplicationServices;
-using MoneyManager.Api.Domain.Entities;
 using MoneyManager.Api.Models;
 using System;
 using System.Collections.Generic;
@@ -58,7 +57,7 @@ namespace MoneyManager.Api.Controllers
 
             var model = UserModel.FromUser(newUser);
 
-            return this.CreatedAtAction(nameof(this.Get), new { id = newUser.Identifier }, model);
+            return this.CreatedAtAction(nameof(this.Get), new { identifier = newUser.Identifier }, model);
         }
     }
 }

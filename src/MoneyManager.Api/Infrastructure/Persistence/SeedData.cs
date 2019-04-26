@@ -13,10 +13,10 @@ namespace MoneyManager.Api.Infrastructure.Persistence
         public static async Task InitializeAsync(IServiceProvider serviceProvider)
         {
             var context = serviceProvider.GetRequiredService<MoneyManagerDbContext>();
-            await MockUsersAsync(context);
+            await FakeUsersAsync(context);
         }
 
-        private static async Task MockUsersAsync(MoneyManagerDbContext context)
+        private static async Task FakeUsersAsync(MoneyManagerDbContext context)
         {
             var testUser = await context.Users
                 .Where(u => u.Login == Constants.TestUserLogin)
