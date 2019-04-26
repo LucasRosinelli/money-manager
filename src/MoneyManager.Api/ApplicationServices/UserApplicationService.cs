@@ -37,5 +37,31 @@ namespace MoneyManager.Api.ApplicationServices
 
             return entity;
         }
+
+        public async Task<User> UpdateAsync(Guid key, User entity)
+        {
+            if (key != entity.Identifier)
+            {
+                return null;
+            }
+
+            var user = await this.GetAsync(key);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            user.Login = entity.Login;
+            user.Password = entity.Password;
+            user.FullName = entity.FullName;
+            user.LastUpdatedOn = DateTimeOffset.Now;
+            user.IsActive = entity.IsActive;
+
+            this.Context.Entry(user).State = EntityState.Modified;
+            await this.Context.SaveChangesAsync();
+
+            return user;
+        }
     }
 }

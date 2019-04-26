@@ -59,5 +59,22 @@ namespace MoneyManager.Api.Controllers
 
             return this.CreatedAtAction(nameof(this.Get), new { identifier = newUser.Identifier }, model);
         }
+
+        [HttpPut("{identifier}")]
+        public async Task<ActionResult<UserModel>> Update(Guid identifier, UserModel user)
+        {
+            var changeUser = user.ToUser();
+
+            changeUser = await this._applicationService.UpdateAsync(identifier, changeUser);
+
+            if (changeUser == null)
+            {
+                return this.BadRequest();
+            }
+
+            var model = UserModel.FromUser(changeUser);
+
+            return this.NoContent();
+        }
     }
 }
