@@ -72,7 +72,18 @@ namespace MoneyManager.Api.Controllers
                 return this.BadRequest();
             }
 
-            var model = UserModel.FromUser(changeUser);
+            return this.NoContent();
+        }
+
+        [HttpDelete("{identifier}")]
+        public async Task<IActionResult> Delete(Guid identifier)
+        {
+            var hasDeleted = await this._applicationService.DeleteAsync(identifier);
+
+            if (!hasDeleted)
+            {
+                return this.NotFound();
+            }
 
             return this.NoContent();
         }

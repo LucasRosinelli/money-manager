@@ -63,5 +63,20 @@ namespace MoneyManager.Api.ApplicationServices
 
             return user;
         }
+
+        public async Task<bool> DeleteAsync(Guid key)
+        {
+            var user = await this.GetAsync(key);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            this.Context.Remove(user);
+            await this.Context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

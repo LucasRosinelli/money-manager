@@ -11,5 +11,6 @@ namespace MoneyManager.Api.Domain.ApplicationServices
         Task<TEntity> GetAsync(Guid identifier);
         Task<TEntity> CreateAsync(TEntity entity);
         Task<TEntity> UpdateAsync(TKey key, TEntity entity);
+        Task<bool> DeleteAsync(TKey key);
     }
 }
