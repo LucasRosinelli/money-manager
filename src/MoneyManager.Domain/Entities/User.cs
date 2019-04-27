@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoneyManager.Domain.Enums;
+using System;
 
 namespace MoneyManager.Domain.Entities
 {
@@ -11,13 +12,13 @@ namespace MoneyManager.Domain.Entities
         public string FullName { get; private set; }
         public DateTimeOffset CreatedOn { get; private set; }
         public DateTimeOffset? LastUpdatedOn { get; private set; }
-        public bool IsActive { get; private set; }
+        public DefaultState Status { get; private set; }
 
         protected User()
         {
             this.Identifier = Guid.NewGuid();
             this.CreatedOn = DateTimeOffset.Now;
-            this.IsActive = true;
+            this.Status = DefaultState.Active;
         }
 
         public User(string login, string password, string fullName)
