@@ -5,7 +5,7 @@ namespace MoneyManager.Domain.Contracts.ApplicationServices
 {
     public interface IApplicationServiceExtended<TRepository, TEntity>
         where TRepository : IRepositoryExtended<TEntity>
-        where TEntity : IEntity
+        where TEntity : class, IEntity
     {
     }
 }

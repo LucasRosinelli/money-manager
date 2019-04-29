@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace MoneyManager.Domain.Contracts.Repositories
 {
     public interface IRepositoryExtended<TEntity> : IRepository<TEntity>
-        where TEntity : IEntity
+        where TEntity : class, IEntity
     {
         Task<IEntity> GetByIdentifier(Guid identifier);
     }
