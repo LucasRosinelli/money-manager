@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyManager.Api", "src\Mon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyManager.Domain", "src\MoneyManager.Domain\MoneyManager.Domain.csproj", "{2D23CCD2-B492-49DA-907B-2C38770B3A4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyManager.Infrastructure", "src\MoneyManager.Infrastructure\MoneyManager.Infrastructure.csproj", "{36484E15-B3EA-4830-B204-E3E447C675D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{2D23CCD2-B492-49DA-907B-2C38770B3A4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D23CCD2-B492-49DA-907B-2C38770B3A4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D23CCD2-B492-49DA-907B-2C38770B3A4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36484E15-B3EA-4830-B204-E3E447C675D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36484E15-B3EA-4830-B204-E3E447C675D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36484E15-B3EA-4830-B204-E3E447C675D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36484E15-B3EA-4830-B204-E3E447C675D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{596FFB3E-EE52-43FA-9D86-BB3188FD4FF9} = {AE3022E3-F29C-484F-B1C5-3224FD074F81}
 		{2D23CCD2-B492-49DA-907B-2C38770B3A4B} = {AE3022E3-F29C-484F-B1C5-3224FD074F81}
+		{36484E15-B3EA-4830-B204-E3E447C675D4} = {AE3022E3-F29C-484F-B1C5-3224FD074F81}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81C2864D-DDAC-40FB-94FF-C6ECC85BCF58}

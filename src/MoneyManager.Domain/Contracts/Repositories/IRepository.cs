@@ -11,5 +11,6 @@ namespace MoneyManager.Domain.Contracts.Repositories
         Task<IEntity> Update(TEntity entity);
         Task<IEntity> GetById(long id);
         Task<IEnumerable<IEntity>> Get();
+        Task<IEnumerable<IEntity>> Get(int skip, int take);
     }
 }
