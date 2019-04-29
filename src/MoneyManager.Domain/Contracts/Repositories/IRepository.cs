@@ -1,5 +1,4 @@
 ﻿using MoneyManager.Domain.Contracts.Entities;
-using System;
 using System.Collections.Generic;
 
 namespace MoneyManager.Domain.Contracts.Repositories
@@ -10,7 +9,6 @@ namespace MoneyManager.Domain.Contracts.Repositories
         IEntity Create(TEntity entity);
         IEntity Update(TEntity entity);
         IEntity GetById(long id);
-        IEntity GetByIdentifier(Guid identifier);
         IEnumerable<IEntity> Get();
     }
 }
