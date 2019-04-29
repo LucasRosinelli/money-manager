@@ -10,7 +10,7 @@ namespace MoneyManager.Domain.Contracts.Repositories
         IEntity Create(TEntity entity);
         IEntity Update(TEntity entity);
         IEntity GetById(long id);
-        IEntity GetById(Guid identifier);
+        IEntity GetByIdentifier(Guid identifier);
         IEnumerable<IEntity> Get();
     }
 }
