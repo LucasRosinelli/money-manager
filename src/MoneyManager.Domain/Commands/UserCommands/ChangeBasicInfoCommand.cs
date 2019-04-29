@@ -1,4 +1,4 @@
-﻿using MoneyManager.Domain.Commands.Contracts;
+﻿using MoneyManager.Domain.Contracts.Commands;
 using System;
 
 namespace MoneyManager.Domain.Commands.UserCommands
