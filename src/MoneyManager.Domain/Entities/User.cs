@@ -1,10 +1,11 @@
-﻿using MoneyManager.Domain.Enums;
+﻿using MoneyManager.Domain.Contracts.Entities;
+using MoneyManager.Domain.Enums;
 using MoneyManager.Domain.Scopes;
 using System;
 
 namespace MoneyManager.Domain.Entities
 {
-    public class User
+    public class User : IEntityExtended<DefaultState>
     {
         public long Id { get; private set; }
         public Guid Identifier { get; private set; }
