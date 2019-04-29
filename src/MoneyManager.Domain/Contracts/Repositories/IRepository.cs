@@ -1,14 +1,15 @@
 ﻿using MoneyManager.Domain.Contracts.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MoneyManager.Domain.Contracts.Repositories
 {
     public interface IRepository<TEntity>
         where TEntity : IEntity
     {
-        IEntity Create(TEntity entity);
-        IEntity Update(TEntity entity);
-        IEntity GetById(long id);
-        IEnumerable<IEntity> Get();
+        Task<IEntity> Create(TEntity entity);
+        Task<IEntity> Update(TEntity entity);
+        Task<IEntity> GetById(long id);
+        Task<IEnumerable<IEntity>> Get();
     }
 }
