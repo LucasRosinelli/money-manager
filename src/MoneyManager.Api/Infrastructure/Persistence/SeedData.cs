@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using MoneyManager.Api.Domain.Entities;
-using MoneyManager.Api.Infrastructure.Persistence.DataContexts;
+using MoneyManager.Infrastructure.Persistence.DataContexts;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,15 +28,7 @@ namespace MoneyManager.Api.Infrastructure.Persistence
 
             var identifier = Guid.NewGuid();
 
-            await context.Users.AddAsync(new User()
-            {
-                Identifier = identifier,
-                Login = Constants.TestUserLogin,
-                Password = Constants.TestUserPassword,
-                FullName = Constants.TestUserFullName,
-                CreatedOn = DateTimeOffset.Now,
-                IsActive = true
-            });
+            await context.Users.AddAsync(new MoneyManager.Domain.Entities.User(Constants.TestUserLogin, Constants.TestUserPassword, Constants.TestUserFullName));
 
             await context.SaveChangesAsync();
         }

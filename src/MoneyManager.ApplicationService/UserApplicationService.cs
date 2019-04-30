@@ -4,6 +4,7 @@ using MoneyManager.Domain.Contracts.Repositories;
 using MoneyManager.Domain.DataTransferObjects.UserDataTransferObject;
 using MoneyManager.Domain.Entities;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MoneyManager.ApplicationService
@@ -61,7 +62,38 @@ namespace MoneyManager.ApplicationService
 
         public async Task<UserDetailDataTransferObject> GetByIdentifier(Guid identifier)
         {
-            return new UserDetailDataTransferObject(await this.Repository.GetByIdentifier(identifier) as User);
+            if (await this.Repository.GetByIdentifier(identifier) is User user)
+            {
+                return new UserDetailDataTransferObject(user);
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<UserDetailDataTransferObject>> Get()
+        {
+            var users = await this.Repository.Get();
+
+            var resultUsers = new HashSet<UserDetailDataTransferObject>();
+            foreach (var user in users)
+            {
+                resultUsers.Add(new UserDetailDataTransferObject(user as User));
+            }
+
+            return resultUsers;
+        }
+
+        public async Task<IEnumerable<UserDetailDataTransferObject>> Get(int skip, int take)
+        {
+            var users = await this.Repository.Get(skip, take);
+
+            var resultUsers = new HashSet<UserDetailDataTransferObject>();
+            foreach (var user in users)
+            {
+                resultUsers.Add(new UserDetailDataTransferObject(user as User));
+            }
+
+            return resultUsers;
         }
     }
 }
