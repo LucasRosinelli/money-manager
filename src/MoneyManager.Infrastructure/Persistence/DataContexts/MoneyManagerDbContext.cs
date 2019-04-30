@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MoneyManager.Api.Domain.Entities;
+using MoneyManager.Domain.Entities;
 
-namespace MoneyManager.Api.Infrastructure.Persistence.DataContexts
+namespace MoneyManager.Infrastructure.Persistence.DataContexts
 {
     public class MoneyManagerDbContext : DbContext
     {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MoneyManager.Api.Domain.ApplicationServices;
-using MoneyManager.Api.Models;
+using MoneyManager.Domain.Commands.UserCommands;
+using MoneyManager.Domain.Contracts.ApplicationServices;
+using MoneyManager.Domain.DataTransferObjects.UserDataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,55 +20,40 @@ namespace MoneyManager.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetAll()
+        public async Task<ActionResult<IEnumerable<UserDetailDataTransferObject>>> GetAll()
         {
-            var users = await this._applicationService.GetAllAsync();
+            var users = await this._applicationService.Get();
 
-            var model = new List<UserModel>();
-
-            foreach (var user in users)
-            {
-                model.Add(UserModel.FromUser(user));
-            }
-
-            return this.Ok(model);
+            return this.Ok(users);
         }
 
         [HttpGet("{identifier}")]
-        public async Task<ActionResult<IEnumerable<UserModel>>> Get(Guid identifier)
+        public async Task<ActionResult<IEnumerable<UserDetailDataTransferObject>>> Get(Guid identifier)
         {
-            var user = await this._applicationService.GetAsync(identifier);
+            var user = await this._applicationService.GetByIdentifier(identifier);
 
             if (user == null)
             {
                 return this.NotFound();
             }
 
-            var model = UserModel.FromUser(user);
-
-            return this.Ok(model);
+            return this.Ok(user);
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserModel>> Create(UserModel user)
+        public async Task<ActionResult<UserDetailDataTransferObject>> Create(RegisterCommand command)
         {
-            var newUser = user.ToUser();
+            var user = await this._applicationService.Register(command);
 
-            newUser = await this._applicationService.CreateAsync(newUser);
-
-            var model = UserModel.FromUser(newUser);
-
-            return this.CreatedAtAction(nameof(this.Get), new { identifier = newUser.Identifier }, model);
+            return this.CreatedAtAction(nameof(this.Get), new { identifier = user.Identifier }, user);
         }
 
-        [HttpPut("{identifier}")]
-        public async Task<ActionResult<UserModel>> Update(Guid identifier, UserModel user)
+        [HttpPut("updateAuthInfo")]
+        public async Task<ActionResult<UserDetailDataTransferObject>> UpdateAuthInfo(ChangeAuthInfoCommand command)
         {
-            var changeUser = user.ToUser();
+            var user = await this._applicationService.ChangeAuthInfo(command);
 
-            changeUser = await this._applicationService.UpdateAsync(identifier, changeUser);
-
-            if (changeUser == null)
+            if (user == null)
             {
                 return this.BadRequest();
             }
@@ -75,14 +61,14 @@ namespace MoneyManager.Api.Controllers
             return this.NoContent();
         }
 
-        [HttpDelete("{identifier}")]
-        public async Task<IActionResult> Delete(Guid identifier)
+        [HttpPut("updateBasicInfo")]
+        public async Task<ActionResult<UserDetailDataTransferObject>> UpdateBasicInfo(ChangeBasicInfoCommand command)
         {
-            var hasDeleted = await this._applicationService.DeleteAsync(identifier);
+            var user = await this._applicationService.ChangeBasicInfo(command);
 
-            if (!hasDeleted)
+            if (user == null)
             {
-                return this.NotFound();
+                return this.BadRequest();
             }
 
             return this.NoContent();

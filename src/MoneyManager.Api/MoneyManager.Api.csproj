@@ -11,4 +11,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MoneyManager.Domain\MoneyManager.Domain.csproj" />
+    <ProjectReference Include="..\MoneyManager.Infrastructure\MoneyManager.Infrastructure.csproj" />
+    <ProjectReference Include="..\MoneyManager.ApplicationService\MoneyManager.ApplicationService.csproj" />
+  </ItemGroup>
+
 </Project>
