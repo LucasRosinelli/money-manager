@@ -1,7 +1,7 @@
 ﻿using MoneyManager.Domain.Commands.UserCommands;
 using MoneyManager.Domain.Contracts.ApplicationServices;
 using MoneyManager.Domain.Contracts.Repositories;
-using MoneyManager.Domain.DataTransferObjects.UserDataTransferObject;
+using MoneyManager.Domain.DataTransferObjects.UserDataTransferObjects;
 using MoneyManager.Domain.Entities;
 using System;
 using System.Collections.Generic;
