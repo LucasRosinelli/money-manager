@@ -20,7 +20,7 @@ namespace MoneyManager.Infrastructure.Repositories
             using (var connection = this.Context.CreateConnection())
             {
                 connection.Open();
-                return await connection.QuerySingleOrDefaultAsync<User>("SELECT * FROM " + this.TableName + " U WHERE U.[Id] = @Id", new { Id = id });
+                return await connection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {this.TableName} U WHERE U.[Id] = @Id", new { Id = id });
             }
         }
 
@@ -29,7 +29,7 @@ namespace MoneyManager.Infrastructure.Repositories
             using (var connection = this.Context.CreateConnection())
             {
                 connection.Open();
-                return await connection.QuerySingleOrDefaultAsync<User>("SELECT * FROM " + this.TableName + " U WHERE U.[Identifier] = @Identifier", new { Identifier = identifier });
+                return await connection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {this.TableName} U WHERE U.[Identifier] = @Identifier", new { Identifier = identifier });
             }
         }
     }

@@ -51,7 +51,7 @@ namespace MoneyManager.Infrastructure.Repositories
             using (var connection = this.Context.CreateConnection())
             {
                 connection.Open();
-                return await connection.QueryAsync<TEntity>("SELECT * FROM " + this.TableName);
+                return await connection.QueryAsync<TEntity>($"SELECT * FROM {this.TableName}");
             }
         }
 
