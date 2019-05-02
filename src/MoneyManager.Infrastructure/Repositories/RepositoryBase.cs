@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Dapper.Contrib.Extensions;
 using MoneyManager.Domain.Contracts.Entities;
 using MoneyManager.Domain.Contracts.Repositories;
 using MoneyManager.Infrastructure.Persistence.DataContexts;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MoneyManager.Infrastructure.Repositories
@@ -11,45 +12,52 @@ namespace MoneyManager.Infrastructure.Repositories
     public abstract class RepositoryBase<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity
     {
-        public MoneyManagerDbContext Context { get; private set; }
+        protected MoneyManagerContext Context { get; private set; }
+        protected string TableName { get; private set; }
 
-        public RepositoryBase(MoneyManagerDbContext context)
+        public RepositoryBase(MoneyManagerContext context, string tableName)
         {
             this.Context = context;
+            this.TableName = tableName;
         }
 
         public virtual async Task<bool> Commit()
         {
-            var result = await this.Context.SaveChangesAsync();
-            return result > 0;
-
+            return true;
         }
 
         public virtual async Task<IEntity> Create(TEntity entity)
         {
-            await this.Context
-                .AddAsync<TEntity>(entity);
-            return entity;
+            using (var connection = this.Context.CreateConnection())
+            {
+                connection.Open();
+                var id = await connection.InsertAsync<TEntity>(entity);
+                return entity;
+            }
         }
 
         public virtual async Task<IEntity> Update(TEntity entity)
         {
-            this.Context.Entry<TEntity>(entity).State = EntityState.Modified;
-            return entity;
+            using (var connection = this.Context.CreateConnection())
+            {
+                connection.Open();
+                var id = await connection.UpdateAsync<TEntity>(entity);
+                return entity;
+            }
         }
 
         public virtual async Task<IEnumerable<IEntity>> Get()
         {
-            return await this.Context.Set<TEntity>()
-                .ToArrayAsync();
+            using (var connection = this.Context.CreateConnection())
+            {
+                connection.Open();
+                return await connection.QueryAsync<TEntity>("SELECT * FROM " + this.TableName);
+            }
         }
 
         public virtual async Task<IEnumerable<IEntity>> Get(int skip, int take)
         {
-            return await this.Context.Set<TEntity>()
-                .Skip(skip)
-                .Take(take)
-                .ToArrayAsync();
+            throw new NotImplementedException();
         }
 
         public abstract Task<IEntity> GetById(long id);
