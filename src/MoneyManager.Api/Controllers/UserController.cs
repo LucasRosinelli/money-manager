@@ -31,9 +31,9 @@ namespace MoneyManager.Api.Controllers
         /// <response code="200">Returns the list of registered users.</response>
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<UserDetailDataTransferObject>>> GetAll()
+        public async Task<ActionResult<IEnumerable<UserDetailDataTransferObject>>> GetAllAsync()
         {
-            var users = await this._applicationService.Get();
+            var users = await this._applicationService.GetAsync();
 
             return this.Ok(users);
         }
@@ -48,9 +48,9 @@ namespace MoneyManager.Api.Controllers
         [HttpGet("{identifier}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<IEnumerable<UserDetailDataTransferObject>>> Get(Guid identifier)
+        public async Task<ActionResult<IEnumerable<UserDetailDataTransferObject>>> GetAsync(Guid identifier)
         {
-            var user = await this._applicationService.GetByIdentifier(identifier);
+            var user = await this._applicationService.GetByIdentifierAsync(identifier);
 
             if (user == null)
             {
@@ -81,7 +81,7 @@ namespace MoneyManager.Api.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<UserDetailDataTransferObject>> Create(Register body)
+        public async Task<ActionResult<UserDetailDataTransferObject>> CreateAsync(Register body)
         {
             var command = new RegisterCommand(
                 login: body.Login,
@@ -89,14 +89,14 @@ namespace MoneyManager.Api.Controllers
                 fullName: body.FullName
             );
 
-            var user = await this._applicationService.Register(command);
+            var user = await this._applicationService.RegisterAsync(command);
 
             if (user == null)
             {
                 return this.BadRequest();
             }
 
-            return this.CreatedAtAction(nameof(this.Get), new { identifier = user.Identifier }, user);
+            return this.CreatedAtAction(nameof(this.GetAsync), new { identifier = user.Identifier }, user);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace MoneyManager.Api.Controllers
         [HttpPut("updateAuthInfo/{identifier}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> UpdateAuthInfo(Guid identifier, ChangeAuthInfo body)
+        public async Task<IActionResult> UpdateAuthInfoAsync(Guid identifier, ChangeAuthInfo body)
         {
             var command = new ChangeAuthInfoCommand(
                 identifier: identifier,
@@ -128,7 +128,7 @@ namespace MoneyManager.Api.Controllers
                 password: body.Password
             );
 
-            var user = await this._applicationService.ChangeAuthInfo(command);
+            var user = await this._applicationService.ChangeAuthInfoAsync(command);
 
             if (user == null)
             {
@@ -157,14 +157,14 @@ namespace MoneyManager.Api.Controllers
         [HttpPut("updateBasicInfo/{identifier}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> UpdateBasicInfo(Guid identifier, ChangeBasicInfo body)
+        public async Task<IActionResult> UpdateBasicInfoAsync(Guid identifier, ChangeBasicInfo body)
         {
             var command = new ChangeBasicInfoCommand(
                 identifier: identifier,
                 fullName: body.FullName
             );
 
-            var user = await this._applicationService.ChangeBasicInfo(command);
+            var user = await this._applicationService.ChangeBasicInfoAsync(command);
 
             if (user == null)
             {

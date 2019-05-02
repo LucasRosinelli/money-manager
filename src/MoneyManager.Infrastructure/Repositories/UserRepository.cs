@@ -15,7 +15,7 @@ namespace MoneyManager.Infrastructure.Repositories
         {
         }
 
-        public override async Task<IEntity> GetById(long id)
+        public override async Task<IEntity> GetByIdAsync(long id)
         {
             using (var connection = this.Context.CreateConnection())
             {
@@ -24,7 +24,7 @@ namespace MoneyManager.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEntity> GetByIdentifier(Guid identifier)
+        public async Task<IEntity> GetByIdentifierAsync(Guid identifier)
         {
             using (var connection = this.Context.CreateConnection())
             {

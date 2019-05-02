@@ -21,12 +21,12 @@ namespace MoneyManager.Infrastructure.Repositories
             this.TableName = tableName;
         }
 
-        public virtual async Task<bool> Commit()
+        public virtual async Task<bool> CommitAsync()
         {
             return true;
         }
 
-        public virtual async Task<IEntity> Create(TEntity entity)
+        public virtual async Task<IEntity> CreateAsync(TEntity entity)
         {
             using (var connection = this.Context.CreateConnection())
             {
@@ -36,7 +36,7 @@ namespace MoneyManager.Infrastructure.Repositories
             }
         }
 
-        public virtual async Task<IEntity> Update(TEntity entity)
+        public virtual async Task<IEntity> UpdateAsync(TEntity entity)
         {
             using (var connection = this.Context.CreateConnection())
             {
@@ -46,7 +46,7 @@ namespace MoneyManager.Infrastructure.Repositories
             }
         }
 
-        public virtual async Task<IEnumerable<IEntity>> Get()
+        public virtual async Task<IEnumerable<IEntity>> GetAsync()
         {
             using (var connection = this.Context.CreateConnection())
             {
@@ -55,11 +55,11 @@ namespace MoneyManager.Infrastructure.Repositories
             }
         }
 
-        public virtual async Task<IEnumerable<IEntity>> Get(int skip, int take)
+        public virtual async Task<IEnumerable<IEntity>> GetAsync(int skip, int take)
         {
             throw new NotImplementedException();
         }
 
-        public abstract Task<IEntity> GetById(long id);
+        public abstract Task<IEntity> GetByIdAsync(long id);
     }
 }

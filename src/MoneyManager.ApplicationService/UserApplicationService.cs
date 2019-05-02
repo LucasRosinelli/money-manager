@@ -16,14 +16,14 @@ namespace MoneyManager.ApplicationService
         {
         }
 
-        public async Task<UserDetailDataTransferObject> Register(RegisterCommand command)
+        public async Task<UserDetailDataTransferObject> RegisterAsync(RegisterCommand command)
         {
             var user = new User(command.Login, command.Password, command.FullName);
 
             if (user.Register())
             {
-                user = await this.Repository.Create(user) as User;
-                if (await this.Repository.Commit())
+                user = await this.Repository.CreateAsync(user) as User;
+                if (await this.Repository.CommitAsync())
                 {
                     return new UserDetailDataTransferObject(user);
                 }
@@ -32,12 +32,12 @@ namespace MoneyManager.ApplicationService
             return null;
         }
 
-        public async Task<UserDetailDataTransferObject> ChangeAuthInfo(ChangeAuthInfoCommand command)
+        public async Task<UserDetailDataTransferObject> ChangeAuthInfoAsync(ChangeAuthInfoCommand command)
         {
-            if (await this.Repository.GetByIdentifier(command.Identifier) is User user && user.ChangeAuthInfo(command.Login, command.Password))
+            if (await this.Repository.GetByIdentifierAsync(command.Identifier) is User user && user.ChangeAuthInfo(command.Login, command.Password))
             {
-                user = await this.Repository.Update(user) as User;
-                if (await this.Repository.Commit())
+                user = await this.Repository.UpdateAsync(user) as User;
+                if (await this.Repository.CommitAsync())
                 {
                     return new UserDetailDataTransferObject(user);
                 }
@@ -46,12 +46,12 @@ namespace MoneyManager.ApplicationService
             return null;
         }
 
-        public async Task<UserDetailDataTransferObject> ChangeBasicInfo(ChangeBasicInfoCommand command)
+        public async Task<UserDetailDataTransferObject> ChangeBasicInfoAsync(ChangeBasicInfoCommand command)
         {
-            if (await this.Repository.GetByIdentifier(command.Identifier) is User user && user.ChangeBasicInfo(command.FullName))
+            if (await this.Repository.GetByIdentifierAsync(command.Identifier) is User user && user.ChangeBasicInfo(command.FullName))
             {
-                user = await this.Repository.Update(user) as User;
-                if (await this.Repository.Commit())
+                user = await this.Repository.UpdateAsync(user) as User;
+                if (await this.Repository.CommitAsync())
                 {
                     return new UserDetailDataTransferObject(user);
                 }
@@ -60,9 +60,9 @@ namespace MoneyManager.ApplicationService
             return null;
         }
 
-        public async Task<UserDetailDataTransferObject> GetByIdentifier(Guid identifier)
+        public async Task<UserDetailDataTransferObject> GetByIdentifierAsync(Guid identifier)
         {
-            if (await this.Repository.GetByIdentifier(identifier) is User user)
+            if (await this.Repository.GetByIdentifierAsync(identifier) is User user)
             {
                 return new UserDetailDataTransferObject(user);
             }
@@ -70,9 +70,9 @@ namespace MoneyManager.ApplicationService
             return null;
         }
 
-        public async Task<IEnumerable<UserDetailDataTransferObject>> Get()
+        public async Task<IEnumerable<UserDetailDataTransferObject>> GetAsync()
         {
-            var users = await this.Repository.Get();
+            var users = await this.Repository.GetAsync();
 
             var resultUsers = new HashSet<UserDetailDataTransferObject>();
             foreach (var user in users)
@@ -83,9 +83,9 @@ namespace MoneyManager.ApplicationService
             return resultUsers;
         }
 
-        public async Task<IEnumerable<UserDetailDataTransferObject>> Get(int skip, int take)
+        public async Task<IEnumerable<UserDetailDataTransferObject>> GetAsync(int skip, int take)
         {
-            var users = await this.Repository.Get(skip, take);
+            var users = await this.Repository.GetAsync(skip, take);
 
             var resultUsers = new HashSet<UserDetailDataTransferObject>();
             foreach (var user in users)

@@ -7,11 +7,11 @@ namespace MoneyManager.Domain.Contracts.Repositories
     public interface IRepository<TEntity>
         where TEntity : class, IEntity
     {
-        Task<bool> Commit();
-        Task<IEntity> Create(TEntity entity);
-        Task<IEntity> Update(TEntity entity);
-        Task<IEntity> GetById(long id);
-        Task<IEnumerable<IEntity>> Get();
-        Task<IEnumerable<IEntity>> Get(int skip, int take);
+        Task<bool> CommitAsync();
+        Task<IEntity> CreateAsync(TEntity entity);
+        Task<IEntity> UpdateAsync(TEntity entity);
+        Task<IEntity> GetByIdAsync(long id);
+        Task<IEnumerable<IEntity>> GetAsync();
+        Task<IEnumerable<IEntity>> GetAsync(int skip, int take);
     }
 }
