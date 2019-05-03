@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MoneyManager.ApplicationService;
 using MoneyManager.Domain.Contracts.ApplicationServices;
 using MoneyManager.Domain.Contracts.Repositories;
+using MoneyManager.Infrastructure.Persistence;
 using MoneyManager.Infrastructure.Persistence.DataContexts;
 using MoneyManager.Infrastructure.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
@@ -27,10 +27,9 @@ namespace MoneyManager.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MoneyManagerDbContext>(options =>
-            {
-                options.UseInMemoryDatabase("money-manager");
-            });
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddSingleton<MoneyManagerContext>();
 
             services.AddScoped<IUserRepository, UserRepository>();
 
@@ -58,18 +57,6 @@ namespace MoneyManager.Api
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new Info
-            //    {
-            //        Title = "Money Manager",
-            //        Version = "v1"
-            //    });
-
-            //    //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            //    //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            //    //c.IncludeXmlComments(xmlPath);
-            //});
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -92,7 +79,7 @@ namespace MoneyManager.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Money Manager v1");
-                //c.RoutePrefix = string.Empty;
+                c.RoutePrefix = string.Empty;
             });
         }
     }

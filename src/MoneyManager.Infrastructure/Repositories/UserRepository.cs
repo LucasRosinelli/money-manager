@@ -1,34 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
 using MoneyManager.Domain.Contracts.Entities;
 using MoneyManager.Domain.Contracts.Repositories;
 using MoneyManager.Domain.Entities;
-using MoneyManager.Domain.Specs;
-using MoneyManager.Infrastructure.Persistence.DataContexts;
+using MoneyManager.Infrastructure.Persistence;
 using System;
-using System.Linq;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace MoneyManager.Infrastructure.Repositories
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        public UserRepository(MoneyManagerDbContext context)
-            : base(context)
+        public UserRepository(IUnitOfWork unitOfWork)
+            : base(unitOfWork, new RepositoryOptions(
+                tableName: "Users",
+                querySelect: "SELECT U.[Id], U.[Identifier], U.[Login], U.[Password], U.[FullName], U.[CreatedOn], U.[LastUpdatedOn], U.[Status] FROM [Users] U"))
         {
         }
 
-        public override async Task<IEntity> GetById(long id)
+        public override async Task<IEntity> GetByIdAsync(long id, IDbTransaction transaction = null)
         {
-            return await this.Context.Users
-                .Where(UserSpecs.GetById(id))
-                .SingleOrDefaultAsync();
+            return await this.UnitOfWork.GetConnection().QuerySingleOrDefaultAsync<User>($"{this.Options.QuerySelect} WHERE U.[Id] = @Id", new { Id = id }, transaction: transaction);
         }
 
-        public async Task<IEntity> GetByIdentifier(Guid identifier)
+        public async Task<IEntity> GetByIdentifierAsync(Guid identifier, IDbTransaction transaction = null)
         {
-            return await this.Context.Users
-                .Where(UserSpecs.GetByIdentifier(identifier))
-                .SingleOrDefaultAsync();
+            return await this.UnitOfWork.GetConnection().QuerySingleOrDefaultAsync<User>($"{this.Options.QuerySelect} WHERE U.[Identifier] = @Identifier", new { Identifier = identifier }, transaction: transaction);
         }
     }
 }

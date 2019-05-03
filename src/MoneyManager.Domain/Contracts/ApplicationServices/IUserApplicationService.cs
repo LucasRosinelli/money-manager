@@ -10,11 +10,11 @@ namespace MoneyManager.Domain.Contracts.ApplicationServices
 {
     public interface IUserApplicationService : IApplicationServiceExtended<IUserRepository, User>
     {
-        Task<UserDetailDataTransferObject> Register(RegisterCommand command);
-        Task<UserDetailDataTransferObject> ChangeAuthInfo(ChangeAuthInfoCommand command);
-        Task<UserDetailDataTransferObject> ChangeBasicInfo(ChangeBasicInfoCommand command);
-        Task<UserDetailDataTransferObject> GetByIdentifier(Guid identifier);
-        Task<IEnumerable<UserDetailDataTransferObject>> Get();
-        Task<IEnumerable<UserDetailDataTransferObject>> Get(int skip, int take);
+        Task<UserDetailDataTransferObject> RegisterAsync(RegisterCommand command);
+        Task<UserDetailDataTransferObject> ChangeAuthInfoAsync(ChangeAuthInfoCommand command);
+        Task<UserDetailDataTransferObject> ChangeBasicInfoAsync(ChangeBasicInfoCommand command);
+        Task<UserDetailDataTransferObject> GetByIdentifierAsync(Guid identifier);
+        Task<IEnumerable<UserDetailDataTransferObject>> GetAsync();
+        Task<IEnumerable<UserDetailDataTransferObject>> GetAsync(int skip, int take);
     }
 }
