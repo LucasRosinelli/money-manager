@@ -3,22 +3,27 @@ using MoneyManager.Domain.Entities;
 
 namespace MoneyManager.Infrastructure.Persistence.Map
 {
-    public class UserMap : DommelEntityMap<User>
+    public class AccountMap : DommelEntityMap<Account>
     {
-        public UserMap()
+        public AccountMap()
         {
-            this.ToTable("Users");
+            this.ToTable("Accounts");
 
             this.Map(p => p.Id)
                 .IsIdentity()
                 .IsKey();
             this.Map(p => p.Identifier);
-            this.Map(p => p.Login);
-            this.Map(p => p.Password);
-            this.Map(p => p.FullName);
+            this.Map(p => p.UserId);
+            this.Map(p => p.ShortName);
+            this.Map(p => p.LongName);
+            this.Map(p => p.Color);
+            this.Map(p => p.Icon);
             this.Map(p => p.CreatedOn);
             this.Map(p => p.LastUpdatedOn);
             this.Map(p => p.Status);
+
+            this.Map(p => p.User)
+                .Ignore();
         }
     }
 }

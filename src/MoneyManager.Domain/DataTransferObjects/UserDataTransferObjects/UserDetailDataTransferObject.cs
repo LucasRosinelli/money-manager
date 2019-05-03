@@ -45,6 +45,7 @@ namespace MoneyManager.Domain.DataTransferObjects.UserDataTransferObjects
         /// <summary>
         /// Initializes an user based on user entity.
         /// </summary>
+        /// <param name="user">User data to be used.</param>
         public UserDetailDataTransferObject(User user)
         {
             if (user != null)

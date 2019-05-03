@@ -32,6 +32,7 @@ namespace MoneyManager.Api
             services.AddSingleton<MoneyManagerContext>();
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
 
             services.AddScoped<IUserApplicationService, UserApplicationService>();
 
