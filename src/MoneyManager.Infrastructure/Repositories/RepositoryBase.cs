@@ -13,12 +13,12 @@ namespace MoneyManager.Infrastructure.Repositories
         where TEntity : class, IEntity
     {
         protected MoneyManagerContext Context { get; private set; }
-        protected string TableName { get; private set; }
+        protected RepositoryOptions Options { get; private set; }
 
-        public RepositoryBase(MoneyManagerContext context, string tableName)
+        public RepositoryBase(MoneyManagerContext context, RepositoryOptions options)
         {
             this.Context = context;
-            this.TableName = tableName;
+            this.Options = options;
         }
 
         public virtual async Task<bool> CommitAsync()
@@ -51,7 +51,7 @@ namespace MoneyManager.Infrastructure.Repositories
             using (var connection = this.Context.CreateConnection())
             {
                 connection.Open();
-                return await connection.QueryAsync<TEntity>($"SELECT * FROM {this.TableName}");
+                return await connection.QueryAsync<TEntity>(this.Options.QuerySelect);
             }
         }
 

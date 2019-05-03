@@ -11,7 +11,9 @@ namespace MoneyManager.Infrastructure.Repositories
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
         public UserRepository(MoneyManagerContext context)
-            : base(context, "Users")
+            : base(context, new RepositoryOptions(
+                tableName: "Users",
+                querySelect: "SELECT U.[Id], U.[Identifier], U.[Login], U.[Password], U.[FullName], U.[CreatedOn], U.[LastUpdatedOn], U.[Status] FROM [Users] U"))
         {
         }
 
@@ -20,7 +22,7 @@ namespace MoneyManager.Infrastructure.Repositories
             using (var connection = this.Context.CreateConnection())
             {
                 connection.Open();
-                return await connection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {this.TableName} U WHERE U.[Id] = @Id", new { Id = id });
+                return await connection.QuerySingleOrDefaultAsync<User>($"{this.Options.QuerySelect} WHERE U.[Id] = @Id", new { Id = id });
             }
         }
 
@@ -29,7 +31,7 @@ namespace MoneyManager.Infrastructure.Repositories
             using (var connection = this.Context.CreateConnection())
             {
                 connection.Open();
-                return await connection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {this.TableName} U WHERE U.[Identifier] = @Identifier", new { Identifier = identifier });
+                return await connection.QuerySingleOrDefaultAsync<User>($"{this.Options.QuerySelect} WHERE U.[Identifier] = @Identifier", new { Identifier = identifier });
             }
         }
     }
