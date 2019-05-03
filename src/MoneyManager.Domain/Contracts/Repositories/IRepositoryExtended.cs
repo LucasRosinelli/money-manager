@@ -1,5 +1,6 @@
 ﻿using MoneyManager.Domain.Contracts.Entities;
 using System;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace MoneyManager.Domain.Contracts.Repositories
@@ -7,6 +8,6 @@ namespace MoneyManager.Domain.Contracts.Repositories
     public interface IRepositoryExtended<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity
     {
-        Task<IEntity> GetByIdentifierAsync(Guid identifier);
+        Task<IEntity> GetByIdentifierAsync(Guid identifier, IDbTransaction transaction = null);
     }
 }

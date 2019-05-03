@@ -2,9 +2,10 @@
 using Dapper.Contrib.Extensions;
 using MoneyManager.Domain.Contracts.Entities;
 using MoneyManager.Domain.Contracts.Repositories;
-using MoneyManager.Infrastructure.Persistence.DataContexts;
+using MoneyManager.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace MoneyManager.Infrastructure.Repositories
@@ -12,54 +13,37 @@ namespace MoneyManager.Infrastructure.Repositories
     public abstract class RepositoryBase<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity
     {
-        protected MoneyManagerContext Context { get; private set; }
+        protected IUnitOfWork UnitOfWork { get; private set; }
         protected RepositoryOptions Options { get; private set; }
 
-        public RepositoryBase(MoneyManagerContext context, RepositoryOptions options)
+        public RepositoryBase(IUnitOfWork unitOfWork, RepositoryOptions options)
         {
-            this.Context = context;
+            this.UnitOfWork = unitOfWork;
             this.Options = options;
         }
 
-        public virtual async Task<bool> CommitAsync()
+        public virtual async Task<IEntity> CreateAsync(TEntity entity, IDbTransaction transaction = null)
         {
-            return true;
+            var id = await this.UnitOfWork.GetConnection().InsertAsync<TEntity>(entity, transaction: transaction);
+            return entity;
         }
 
-        public virtual async Task<IEntity> CreateAsync(TEntity entity)
+        public virtual async Task<IEntity> UpdateAsync(TEntity entity, IDbTransaction transaction = null)
         {
-            using (var connection = this.Context.CreateConnection())
-            {
-                connection.Open();
-                var id = await connection.InsertAsync<TEntity>(entity);
-                return entity;
-            }
+            var id = await this.UnitOfWork.GetConnection().UpdateAsync<TEntity>(entity, transaction: transaction);
+            return entity;
         }
 
-        public virtual async Task<IEntity> UpdateAsync(TEntity entity)
+        public virtual async Task<IEnumerable<IEntity>> GetAsync(IDbTransaction transaction = null)
         {
-            using (var connection = this.Context.CreateConnection())
-            {
-                connection.Open();
-                var id = await connection.UpdateAsync<TEntity>(entity);
-                return entity;
-            }
+            return await this.UnitOfWork.GetConnection().QueryAsync<TEntity>(this.Options.QuerySelect, transaction: transaction);
         }
 
-        public virtual async Task<IEnumerable<IEntity>> GetAsync()
-        {
-            using (var connection = this.Context.CreateConnection())
-            {
-                connection.Open();
-                return await connection.QueryAsync<TEntity>(this.Options.QuerySelect);
-            }
-        }
-
-        public virtual async Task<IEnumerable<IEntity>> GetAsync(int skip, int take)
+        public virtual async Task<IEnumerable<IEntity>> GetAsync(int skip, int take, IDbTransaction transaction = null)
         {
             throw new NotImplementedException();
         }
 
-        public abstract Task<IEntity> GetByIdAsync(long id);
+        public abstract Task<IEntity> GetByIdAsync(long id, IDbTransaction transaction = null);
     }
 }

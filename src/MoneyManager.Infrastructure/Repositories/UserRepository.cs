@@ -2,37 +2,30 @@
 using MoneyManager.Domain.Contracts.Entities;
 using MoneyManager.Domain.Contracts.Repositories;
 using MoneyManager.Domain.Entities;
-using MoneyManager.Infrastructure.Persistence.DataContexts;
+using MoneyManager.Infrastructure.Persistence;
 using System;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace MoneyManager.Infrastructure.Repositories
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        public UserRepository(MoneyManagerContext context)
-            : base(context, new RepositoryOptions(
+        public UserRepository(IUnitOfWork unitOfWork)
+            : base(unitOfWork, new RepositoryOptions(
                 tableName: "Users",
                 querySelect: "SELECT U.[Id], U.[Identifier], U.[Login], U.[Password], U.[FullName], U.[CreatedOn], U.[LastUpdatedOn], U.[Status] FROM [Users] U"))
         {
         }
 
-        public override async Task<IEntity> GetByIdAsync(long id)
+        public override async Task<IEntity> GetByIdAsync(long id, IDbTransaction transaction = null)
         {
-            using (var connection = this.Context.CreateConnection())
-            {
-                connection.Open();
-                return await connection.QuerySingleOrDefaultAsync<User>($"{this.Options.QuerySelect} WHERE U.[Id] = @Id", new { Id = id });
-            }
+            return await this.UnitOfWork.GetConnection().QuerySingleOrDefaultAsync<User>($"{this.Options.QuerySelect} WHERE U.[Id] = @Id", new { Id = id }, transaction: transaction);
         }
 
-        public async Task<IEntity> GetByIdentifierAsync(Guid identifier)
+        public async Task<IEntity> GetByIdentifierAsync(Guid identifier, IDbTransaction transaction = null)
         {
-            using (var connection = this.Context.CreateConnection())
-            {
-                connection.Open();
-                return await connection.QuerySingleOrDefaultAsync<User>($"{this.Options.QuerySelect} WHERE U.[Identifier] = @Identifier", new { Identifier = identifier });
-            }
+            return await this.UnitOfWork.GetConnection().QuerySingleOrDefaultAsync<User>($"{this.Options.QuerySelect} WHERE U.[Identifier] = @Identifier", new { Identifier = identifier }, transaction: transaction);
         }
     }
 }

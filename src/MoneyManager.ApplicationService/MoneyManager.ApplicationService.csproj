@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MoneyManager.Domain\MoneyManager.Domain.csproj" />
+    <ProjectReference Include="..\MoneyManager.Infrastructure\MoneyManager.Infrastructure.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

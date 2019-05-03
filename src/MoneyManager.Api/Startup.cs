@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MoneyManager.ApplicationService;
 using MoneyManager.Domain.Contracts.ApplicationServices;
 using MoneyManager.Domain.Contracts.Repositories;
+using MoneyManager.Infrastructure.Persistence;
 using MoneyManager.Infrastructure.Persistence.DataContexts;
 using MoneyManager.Infrastructure.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
@@ -26,6 +27,8 @@ namespace MoneyManager.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddSingleton<MoneyManagerContext>();
 
             services.AddScoped<IUserRepository, UserRepository>();

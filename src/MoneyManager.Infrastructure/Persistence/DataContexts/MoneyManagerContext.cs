@@ -1,8 +1,6 @@
 ﻿using Dapper.FluentMap;
 using Microsoft.Extensions.Configuration;
 using MoneyManager.Infrastructure.Persistence.Map;
-using System.Data;
-using System.Data.SqlClient;
 
 namespace MoneyManager.Infrastructure.Persistence.DataContexts
 {
@@ -10,25 +8,16 @@ namespace MoneyManager.Infrastructure.Persistence.DataContexts
     {
         private readonly IConfiguration _configuration;
 
+        internal string ConnectionString { get; private set; }
+
         public MoneyManagerContext(IConfiguration configuration)
         {
             this._configuration = configuration;
+            this.ConnectionString = this._configuration.GetConnectionString("MoneyManagerConnection");
 
             FluentMapper.Initialize(config => {
                 config.AddMap(new UserMap());
             });
-        }
-
-        public IDbConnection CreateConnection()
-        {
-            var connection = new SqlConnection(this._configuration.GetConnectionString("MoneyManagerConnection"));
-            return connection;
-        }
-
-        public bool Commit(IDbTransaction transaction)
-        {
-            transaction.Commit();
-            return true;
         }
     }
 }
