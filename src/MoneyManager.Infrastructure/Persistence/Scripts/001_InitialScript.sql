@@ -18,3 +18,36 @@ ADD CONSTRAINT
 PRIMARY KEY
 	([Id])
 GO
+
+CREATE TABLE [Accounts]
+(
+	[Id]			BIGINT IDENTITY(1,1)	NOT NULL,
+	[Identifier]	UNIQUEIDENTIFIER		NOT NULL,
+	[UserId]		BIGINT					NOT NULL,
+	[ShortName]		VARCHAR(3)				NOT NULL,
+	[LongName]		VARCHAR(50)				NOT NULL,
+	[Color]			VARCHAR(7)				NOT NULL,
+	[Icon]			VARCHAR(20)				NOT NULL,
+	[CreatedOn]		DATETIMEOFFSET			NOT NULL,
+	[LastUpdatedOn]	DATETIMEOFFSET			NULL,
+	[Status]		INT						NOT NULL
+)
+GO
+
+ALTER TABLE
+	[Accounts]
+ADD CONSTRAINT
+	[PK_Accounts_Id]
+PRIMARY KEY
+	([Id])
+GO
+
+ALTER TABLE
+	[Accounts]
+ADD CONSTRAINT
+	[FK_Users_Accounts_Id]
+FOREIGN KEY
+	([UserId])
+REFERENCES
+	[Users] ([Id])
+GO

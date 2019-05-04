@@ -41,6 +41,12 @@ namespace MoneyManager.Api.Controllers
         /// <summary>
         /// Gets detail of a specific user.
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /user/00000000-0000-0000-0000-000000000000
+        /// 
+        /// </remarks>
         /// <param name="identifier">User identifier.</param>
         /// <returns>User details.</returns>
         /// <response code="200">Returns user details.</response>
@@ -61,7 +67,7 @@ namespace MoneyManager.Api.Controllers
         }
 
         /// <summary>
-        /// Creates a user.
+        /// Creates an user.
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -81,7 +87,7 @@ namespace MoneyManager.Api.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<UserDetailDataTransferObject>> CreateAsync(Register body)
+        public async Task<ActionResult<UserDetailDataTransferObject>> CreateAsync(UserRegister body)
         {
             var command = new RegisterCommand(
                 login: body.Login,
@@ -120,7 +126,7 @@ namespace MoneyManager.Api.Controllers
         [HttpPut("updateAuthInfo/{identifier}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> UpdateAuthInfoAsync(Guid identifier, ChangeAuthInfo body)
+        public async Task<IActionResult> UpdateAuthInfoAsync(Guid identifier, UserChangeAuthInfo body)
         {
             var command = new ChangeAuthInfoCommand(
                 identifier: identifier,
@@ -157,7 +163,7 @@ namespace MoneyManager.Api.Controllers
         [HttpPut("updateBasicInfo/{identifier}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> UpdateBasicInfoAsync(Guid identifier, ChangeBasicInfo body)
+        public async Task<IActionResult> UpdateBasicInfoAsync(Guid identifier, UserChangeBasicInfo body)
         {
             var command = new ChangeBasicInfoCommand(
                 identifier: identifier,
