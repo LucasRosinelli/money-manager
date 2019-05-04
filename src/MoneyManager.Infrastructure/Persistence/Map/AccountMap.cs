@@ -9,6 +9,9 @@ namespace MoneyManager.Infrastructure.Persistence.Map
         {
             this.ToTable("Accounts");
 
+            //this.Map(p => p.User)
+            //    .Ignore();
+
             this.Map(p => p.Id)
                 .IsIdentity()
                 .IsKey();
@@ -21,9 +24,6 @@ namespace MoneyManager.Infrastructure.Persistence.Map
             this.Map(p => p.CreatedOn);
             this.Map(p => p.LastUpdatedOn);
             this.Map(p => p.Status);
-
-            this.Map(p => p.User)
-                .Ignore();
         }
     }
 }

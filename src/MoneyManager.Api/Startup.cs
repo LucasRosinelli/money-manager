@@ -35,6 +35,7 @@ namespace MoneyManager.Api
             services.AddScoped<IAccountRepository, AccountRepository>();
 
             services.AddScoped<IUserApplicationService, UserApplicationService>();
+            services.AddScoped<IAccountApplicationService, AccountApplicationService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

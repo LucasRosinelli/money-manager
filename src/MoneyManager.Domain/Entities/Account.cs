@@ -10,7 +10,7 @@ namespace MoneyManager.Domain.Entities
         public long Id { get; private set; }
         public Guid Identifier { get; private set; }
         public long UserId { get; private set; }
-        public virtual User User { get; private set; }
+        //public virtual User User { get; private set; }
         public string ShortName { get; private set; }
         public string LongName { get; private set; }
         public string Color { get; private set; }
