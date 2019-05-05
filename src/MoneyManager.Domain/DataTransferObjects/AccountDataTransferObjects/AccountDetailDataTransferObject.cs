@@ -31,6 +31,10 @@ namespace MoneyManager.Domain.DataTransferObjects.AccountDataTransferObjects
         /// </summary>
         public string Icon { get; set; }
         /// <summary>
+        /// Account current balance.
+        /// </summary>
+        public float CurrentBalance { get; set; }
+        /// <summary>
         /// Date, time and timezone when the account was created.
         /// </summary>
         public DateTimeOffset CreatedOn { get; set; }
@@ -63,6 +67,7 @@ namespace MoneyManager.Domain.DataTransferObjects.AccountDataTransferObjects
                 this.LongName = account.LongName;
                 this.Color = account.Color;
                 this.Icon = account.Icon;
+                this.CurrentBalance = account.CurrentBalance;
                 this.CreatedOn = account.CreatedOn;
                 this.LastUpdatedOn = account.LastUpdatedOn;
                 this.Status = account.Status;

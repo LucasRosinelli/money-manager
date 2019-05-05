@@ -12,6 +12,7 @@ namespace MoneyManager.Domain.Entities
         public string Login { get; private set; }
         public string Password { get; private set; }
         public string FullName { get; private set; }
+        public float Balance { get; private set; }
         public DateTimeOffset CreatedOn { get; private set; }
         public DateTimeOffset? LastUpdatedOn { get; private set; }
         public DefaultState Status { get; private set; }
@@ -19,6 +20,7 @@ namespace MoneyManager.Domain.Entities
         protected User()
         {
             this.Identifier = Guid.NewGuid();
+            this.Balance = 0.0F;
             this.CreatedOn = DateTimeOffset.Now;
             this.Status = DefaultState.Active;
         }

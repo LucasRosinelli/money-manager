@@ -21,6 +21,7 @@ namespace MoneyManager.Infrastructure.Persistence.Map
             this.Map(p => p.LongName);
             this.Map(p => p.Color);
             this.Map(p => p.Icon);
+            this.Map(p => p.CurrentBalance);
             this.Map(p => p.CreatedOn);
             this.Map(p => p.LastUpdatedOn);
             this.Map(p => p.Status);
