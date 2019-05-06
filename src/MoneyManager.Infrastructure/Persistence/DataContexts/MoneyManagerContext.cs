@@ -18,6 +18,8 @@ namespace MoneyManager.Infrastructure.Persistence.DataContexts
             FluentMapper.Initialize(config => {
                 config.AddMap(new UserMap());
                 config.AddMap(new AccountMap());
+                config.AddMap(new IncomeMap());
+                config.AddMap(new ExpenseMap());
             });
         }
     }

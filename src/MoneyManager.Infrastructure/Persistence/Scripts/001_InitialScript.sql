@@ -53,3 +53,67 @@ FOREIGN KEY
 REFERENCES
 	[Users] ([Id])
 GO
+
+CREATE TABLE [Incomes]
+(
+	[Id]			BIGINT IDENTITY(1,1)	NOT NULL,
+	[Identifier]	UNIQUEIDENTIFIER		NOT NULL,
+	[AccountId]		BIGINT					NOT NULL,
+	[Description]	VARCHAR(100)			NOT NULL,
+	[Date]			DATE					NOT NULL,
+	[Value]			DECIMAL(19,4)			NOT NULL,
+	[CreatedOn]		DATETIMEOFFSET			NOT NULL,
+	[LastUpdatedOn]	DATETIMEOFFSET			NULL,
+	[Status]		INT						NOT NULL
+)
+GO
+
+ALTER TABLE
+	[Incomes]
+ADD CONSTRAINT
+	[PK_Incomes_Id]
+PRIMARY KEY
+	([Id])
+GO
+
+ALTER TABLE
+	[Incomes]
+ADD CONSTRAINT
+	[FK_Accounts_Incomes_Id]
+FOREIGN KEY
+	([AccountId])
+REFERENCES
+	[Accounts] ([Id])
+GO
+
+CREATE TABLE [Expenses]
+(
+	[Id]			BIGINT IDENTITY(1,1)	NOT NULL,
+	[Identifier]	UNIQUEIDENTIFIER		NOT NULL,
+	[AccountId]		BIGINT					NOT NULL,
+	[Description]	VARCHAR(100)			NOT NULL,
+	[Date]			DATE					NOT NULL,
+	[Value]			DECIMAL(19,4)			NOT NULL,
+	[CreatedOn]		DATETIMEOFFSET			NOT NULL,
+	[LastUpdatedOn]	DATETIMEOFFSET			NULL,
+	[Status]		INT						NOT NULL
+)
+GO
+
+ALTER TABLE
+	[Expenses]
+ADD CONSTRAINT
+	[PK_Expenses_Id]
+PRIMARY KEY
+	([Id])
+GO
+
+ALTER TABLE
+	[Expenses]
+ADD CONSTRAINT
+	[FK_Accounts_Expenses_Id]
+FOREIGN KEY
+	([AccountId])
+REFERENCES
+	[Accounts] ([Id])
+GO
