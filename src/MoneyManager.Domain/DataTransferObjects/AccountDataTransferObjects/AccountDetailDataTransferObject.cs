@@ -55,7 +55,7 @@ namespace MoneyManager.Domain.DataTransferObjects.AccountDataTransferObjects
         }
 
         /// <summary>
-        /// Initializes an account based on user entity.
+        /// Initializes an account based on account entity.
         /// </summary>
         /// <param name="account">Account data to be used.</param>
         public AccountDetailDataTransferObject(Account account)

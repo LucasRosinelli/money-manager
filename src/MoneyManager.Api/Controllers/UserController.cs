@@ -29,7 +29,7 @@ namespace MoneyManager.Api.Controllers
         /// </summary>
         /// <returns>List of users registered.</returns>
         /// <response code="200">Returns the list of registered users.</response>
-        [HttpGet]
+        [HttpGet("all")]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<UserDetailDataTransferObject>>> GetAllAsync()
         {
@@ -54,7 +54,7 @@ namespace MoneyManager.Api.Controllers
         [HttpGet("{identifier}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<IEnumerable<UserDetailDataTransferObject>>> GetAsync(Guid identifier)
+        public async Task<ActionResult<UserDetailDataTransferObject>> GetAsync(Guid identifier)
         {
             var user = await this._applicationService.GetByIdentifierAsync(identifier);
 
