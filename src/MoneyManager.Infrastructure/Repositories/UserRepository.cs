@@ -14,7 +14,7 @@ namespace MoneyManager.Infrastructure.Repositories
         public UserRepository(IUnitOfWork unitOfWork)
             : base(unitOfWork, new RepositoryOptions(
                 tableName: "Users",
-                querySelect: "SELECT U.[Id], U.[Identifier], U.[Login], U.[Password], U.[FullName], U.[CreatedOn], U.[LastUpdatedOn], U.[Status] FROM [Users] U"))
+                querySelect: "SELECT U.[Id], U.[Identifier], U.[Login], U.[Password], U.[FullName], U.[Balance], U.[CreatedOn], U.[LastUpdatedOn], U.[Status] FROM [Users] U"))
         {
         }
 

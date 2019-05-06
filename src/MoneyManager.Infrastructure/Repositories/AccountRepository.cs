@@ -14,7 +14,7 @@ namespace MoneyManager.Infrastructure.Repositories
         public AccountRepository(IUnitOfWork unitOfWork)
             : base(unitOfWork, new RepositoryOptions(
                 tableName: "Accounts",
-                querySelect: "SELECT A.[Id], A.[Identifier], A.[UserId], A.[ShortName], A.[LongName], A.[Color], A.[Icon], A.[CreatedOn], A.[LastUpdatedOn], A.[Status] FROM [Accounts] A"))
+                querySelect: "SELECT A.[Id], A.[Identifier], A.[UserId], A.[ShortName], A.[LongName], A.[Color], A.[Icon], A.[CurrentBalance], A.[CreatedOn], A.[LastUpdatedOn], A.[Status] FROM [Accounts] A"))
         {
         }
 

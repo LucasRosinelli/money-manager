@@ -15,6 +15,7 @@ namespace MoneyManager.Domain.Entities
         public string LongName { get; private set; }
         public string Color { get; private set; }
         public string Icon { get; private set; }
+        public float CurrentBalance { get; private set; }
         public DateTimeOffset CreatedOn { get; private set; }
         public DateTimeOffset? LastUpdatedOn { get; private set; }
         public DefaultState Status { get; private set; }
@@ -22,6 +23,7 @@ namespace MoneyManager.Domain.Entities
         protected Account()
         {
             this.Identifier = Guid.NewGuid();
+            this.CurrentBalance = 0.0F;
             this.CreatedOn = DateTimeOffset.Now;
             this.Status = DefaultState.Active;
         }

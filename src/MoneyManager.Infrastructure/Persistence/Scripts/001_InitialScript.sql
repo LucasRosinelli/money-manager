@@ -5,6 +5,7 @@ CREATE TABLE [Users]
 	[Login]			VARCHAR(120)			NOT NULL,
 	[Password]		VARCHAR(50)				NOT NULL,
 	[FullName]		VARCHAR(250)			NOT NULL,
+	[Balance]		DECIMAL(19,4)			NOT NULL,
 	[CreatedOn]		DATETIMEOFFSET			NOT NULL,
 	[LastUpdatedOn]	DATETIMEOFFSET			NULL,
 	[Status]		INT						NOT NULL
@@ -21,16 +22,17 @@ GO
 
 CREATE TABLE [Accounts]
 (
-	[Id]			BIGINT IDENTITY(1,1)	NOT NULL,
-	[Identifier]	UNIQUEIDENTIFIER		NOT NULL,
-	[UserId]		BIGINT					NOT NULL,
-	[ShortName]		VARCHAR(3)				NOT NULL,
-	[LongName]		VARCHAR(50)				NOT NULL,
-	[Color]			VARCHAR(7)				NOT NULL,
-	[Icon]			VARCHAR(20)				NOT NULL,
-	[CreatedOn]		DATETIMEOFFSET			NOT NULL,
-	[LastUpdatedOn]	DATETIMEOFFSET			NULL,
-	[Status]		INT						NOT NULL
+	[Id]				BIGINT IDENTITY(1,1)	NOT NULL,
+	[Identifier]		UNIQUEIDENTIFIER		NOT NULL,
+	[UserId]			BIGINT					NOT NULL,
+	[ShortName]			VARCHAR(3)				NOT NULL,
+	[LongName]			VARCHAR(50)				NOT NULL,
+	[Color]				VARCHAR(7)				NOT NULL,
+	[Icon]				VARCHAR(20)				NOT NULL,
+	[CurrentBalance]	DECIMAL(19,4)			NOT NULL,
+	[CreatedOn]			DATETIMEOFFSET			NOT NULL,
+	[LastUpdatedOn]		DATETIMEOFFSET			NULL,
+	[Status]			INT						NOT NULL
 )
 GO
 
