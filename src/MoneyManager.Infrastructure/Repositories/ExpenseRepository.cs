@@ -20,12 +20,12 @@ namespace MoneyManager.Infrastructure.Repositories
 
         public override async Task<IEntity> GetByIdAsync(long id, IDbTransaction transaction = null)
         {
-            return await this.UnitOfWork.GetConnection().QuerySingleOrDefaultAsync<User>($"{this.Options.QuerySelect} WHERE E.[Id] = @Id", new { Id = id }, transaction: transaction);
+            return await this.UnitOfWork.GetConnection().QuerySingleOrDefaultAsync<Expense>($"{this.Options.QuerySelect} WHERE E.[Id] = @Id", new { Id = id }, transaction: transaction);
         }
 
         public async Task<IEntity> GetByIdentifierAsync(Guid identifier, IDbTransaction transaction = null)
         {
-            return await this.UnitOfWork.GetConnection().QuerySingleOrDefaultAsync<User>($"{this.Options.QuerySelect} WHERE E.[Identifier] = @Identifier", new { Identifier = identifier }, transaction: transaction);
+            return await this.UnitOfWork.GetConnection().QuerySingleOrDefaultAsync<Expense>($"{this.Options.QuerySelect} WHERE E.[Identifier] = @Identifier", new { Identifier = identifier }, transaction: transaction);
         }
     }
 }

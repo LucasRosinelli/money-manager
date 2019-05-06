@@ -30,13 +30,13 @@ namespace MoneyManager.Api.Controllers
         /// <remarks>
         /// Sample request:
         /// 
-        ///     GET /account/00000000-0000-0000-0000-000000000000
+        ///     GET /account/all/00000000-0000-0000-0000-000000000000
         /// 
         /// </remarks>
         /// <param name="user">User identifier.</param>
         /// <returns>List of accounts registered from user.</returns>
         /// <response code="200">Returns the list of registered accounts from user.</response>
-        [HttpGet("{user}")]
+        [HttpGet("all/{user}")]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<AccountDetailDataTransferObject>>> GetAllAsync(Guid user)
         {
@@ -51,7 +51,7 @@ namespace MoneyManager.Api.Controllers
         /// <remarks>
         /// Sample request:
         /// 
-        ///     GET /account/all/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000
+        ///     GET /account/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000
         /// 
         /// </remarks>
         /// <param name="user">User identifier.</param>
@@ -59,10 +59,10 @@ namespace MoneyManager.Api.Controllers
         /// <returns>Account details.</returns>
         /// <response code="200">Returns account details.</response>
         /// <response code="404">If the account was not found.</response>
-        [HttpGet("all/{user}/{identifier}")]
+        [HttpGet("{user}/{identifier}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<IEnumerable<AccountDetailDataTransferObject>>> GetAsync(Guid user, Guid identifier)
+        public async Task<ActionResult<AccountDetailDataTransferObject>> GetAsync(Guid user, Guid identifier)
         {
             var account = await this._applicationService.GetByIdentifierAsync(user, identifier);
 

@@ -11,8 +11,6 @@ namespace MoneyManager.Infrastructure.Persistence.Map
 
             //this.Map(p => p.Account)
             //    .Ignore();
-            this.Map(p => p.IsExpense)
-                .Ignore();
 
             this.Map(p => p.Id)
                 .IsIdentity()
@@ -20,6 +18,7 @@ namespace MoneyManager.Infrastructure.Persistence.Map
             this.Map(p => p.Identifier);
             this.Map(p => p.AccountId);
             this.Map(p => p.Description);
+            this.Map(p => p.IsExpense);
             this.Map(p => p.Date);
             this.Map(p => p.Value);
             this.Map(p => p.CreatedOn);

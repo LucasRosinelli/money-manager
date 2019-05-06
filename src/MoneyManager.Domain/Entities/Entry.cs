@@ -7,17 +7,17 @@ namespace MoneyManager.Domain.Entities
 {
     public abstract class Entry : IEntityExtended<DefaultState>
     {
-        public long Id { get; private set; }
-        public Guid Identifier { get; private set; }
-        public long AccountId { get; private set; }
+        public long Id { get; protected set; }
+        public Guid Identifier { get; protected set; }
+        public long AccountId { get; protected set; }
         //public virtual Account Account { get; private set; }
-        public bool IsExpense { get; private set; }
-        public string Description { get; private set; }
-        public DateTime Date { get; private set; }
-        public float Value { get; private set; }
-        public DateTimeOffset CreatedOn { get; private set; }
-        public DateTimeOffset? LastUpdatedOn { get; private set; }
-        public DefaultState Status { get; private set; }
+        public bool IsExpense { get; protected set; }
+        public string Description { get; protected set; }
+        public DateTime Date { get; protected set; }
+        public float Value { get; protected set; }
+        public DateTimeOffset CreatedOn { get; protected set; }
+        public DateTimeOffset? LastUpdatedOn { get; protected set; }
+        public DefaultState Status { get; protected set; }
 
         protected Entry(bool isExpense)
         {

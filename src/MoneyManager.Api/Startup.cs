@@ -38,6 +38,8 @@ namespace MoneyManager.Api
 
             services.AddScoped<IUserApplicationService, UserApplicationService>();
             services.AddScoped<IAccountApplicationService, AccountApplicationService>();
+            services.AddScoped<IIncomeApplicationService, IncomeApplicationService>();
+            services.AddScoped<IExpenseApplicationService, ExpenseApplicationService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
