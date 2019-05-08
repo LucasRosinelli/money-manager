@@ -1,10 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using MoneyManager.Api.Models.UserModel;
 using MoneyManager.Domain.Commands.UserCommands;
 using MoneyManager.Domain.Contracts.ApplicationServices;
 using MoneyManager.Domain.DataTransferObjects.UserDataTransferObjects;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MoneyManager.Api.Controllers
@@ -12,16 +18,73 @@ namespace MoneyManager.Api.Controllers
     /// <summary>
     /// Contains operations related to users.
     /// </summary>
+    [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
     {
+        private readonly IConfiguration _configuration;
         private readonly IUserApplicationService _applicationService;
+        private readonly string _secret;
 
-        public UserController(IUserApplicationService applicationService)
+        public UserController(IConfiguration configuration, IUserApplicationService applicationService)
         {
+            this._configuration = configuration;
             this._applicationService = applicationService;
+            this._secret = this._configuration.GetSection("AppSettings").GetValue<string>("Secret");
+        }
+
+        /// <summary>
+        /// Authenticates user according to login and password.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /authenticate
+        ///     {
+        ///         "login": "lucas",
+        ///         "password": "123"
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="body">Login and password to authenticate.</param>
+        /// <returns>User details.</returns>
+        /// <response code="200">Returns the user authenticated.</response>
+        /// <response code="400">If the user credentials are invalidor incorrect.</response>
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Authenticate([FromBody]dynamic body)
+        {
+            var command = new
+            {
+                Login = (string)body.login,
+                Password = (string)body.password
+            };
+
+            if (command.Login == "lucas" && command.Password == "123")
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(this._secret);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.Name, command.Login)
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+
+                var user = new { Login = command.Login, FullName = "Lucas Rosinelli da Rocha", Token = tokenHandler.WriteToken(token) };
+
+                return this.Ok(user);
+            }
+
+            return this.BadRequest(new { Message = "Username or password is incorrect" });
         }
 
         /// <summary>
